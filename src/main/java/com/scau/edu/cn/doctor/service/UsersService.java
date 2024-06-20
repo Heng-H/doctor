@@ -10,6 +10,6 @@ import com.scau.edu.cn.doctor.util.Result;
 * @createDate 2024-06-20 14:21:56
 */
 public interface UsersService extends IService<Users> {
-    public Result login(Users user);
+
 
 }

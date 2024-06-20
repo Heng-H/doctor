@@ -15,20 +15,4 @@ import javax.annotation.Resource;
 @RequestMapping("users")
 public class UsersController {
 
-    /**
-     * 服务对象
-     */
-    @Resource
-    private UsersService usersService;
-
-    /**
-     * 登录
-     * @param user
-     * @return
-     */
-    @PostMapping("login")
-    public Result login (@RequestBody Users user) {
-
-        return usersService.login(user);
-    }
 }

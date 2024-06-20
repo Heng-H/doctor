@@ -5,7 +5,11 @@ import com.scau.edu.cn.doctor.domain.Users;
 import com.scau.edu.cn.doctor.service.UsersService;
 import com.scau.edu.cn.doctor.mapper.UsersMapper;
 import com.scau.edu.cn.doctor.util.Result;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 /**
 * @author 86153
@@ -16,10 +20,7 @@ import org.springframework.stereotype.Service;
 public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users>
     implements UsersService{
 
-    @Override
-    public Result login(Users user) {
-        return null;
-    }
+
 }
 
 
