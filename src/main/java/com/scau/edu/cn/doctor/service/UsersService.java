@@ -2,6 +2,7 @@ package com.scau.edu.cn.doctor.service;
 
 import com.scau.edu.cn.doctor.domain.Users;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.scau.edu.cn.doctor.util.Result;
 
 /**
 * @author 86153
@@ -9,5 +10,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 * @createDate 2024-06-20 14:21:56
 */
 public interface UsersService extends IService<Users> {
+    public Result login(Users user);
 
 }

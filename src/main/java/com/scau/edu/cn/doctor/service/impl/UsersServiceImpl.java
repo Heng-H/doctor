@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.scau.edu.cn.doctor.domain.Users;
 import com.scau.edu.cn.doctor.service.UsersService;
 import com.scau.edu.cn.doctor.mapper.UsersMapper;
+import com.scau.edu.cn.doctor.util.Result;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,6 +16,10 @@ import org.springframework.stereotype.Service;
 public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users>
     implements UsersService{
 
+    @Override
+    public Result login(Users user) {
+        return null;
+    }
 }
 
 
