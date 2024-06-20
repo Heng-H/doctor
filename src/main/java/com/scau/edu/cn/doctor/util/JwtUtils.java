@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class JwtUtils {
 
-    private static final String signKey = "hospital";
+    private static final String signKey = "doctor";
     private static final Long expire = 1800000L;
 
     /**
