@@ -17,8 +17,8 @@ public class Doctor implements Serializable {
     /**
      * 医生编号
      */
-    @TableId(value = "docId", type = IdType.AUTO)
-    private Integer docId;
+    @TableId(value = "docId")
+    private String docId;
 
     /**
      * 医生编码
