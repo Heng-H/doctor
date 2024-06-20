@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scau.edu.cn.doctor.mapper.CheckItemMapper">
+
+    <resultMap id="BaseResultMap" type="com.scau.edu.cn.doctor.domain.CheckItem">
+            <id property="ciId" column="ciId" jdbcType="INTEGER"/>
+            <result property="ciName" column="ciName" jdbcType="VARCHAR"/>
+            <result property="ciContent" column="ciContent" jdbcType="VARCHAR"/>
+            <result property="meaning" column="meaning" jdbcType="VARCHAR"/>
+            <result property="remarks" column="remarks" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ciId,ciName,ciContent,
+        meaning,remarks
+    </sql>
+</mapper>

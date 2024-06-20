@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scau.edu.cn.doctor.mapper.SetMealMapper">
+
+    <resultMap id="BaseResultMap" type="com.scau.edu.cn.doctor.domain.SetMeal">
+            <id property="smId" column="smId" jdbcType="INTEGER"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="type" column="type" jdbcType="INTEGER"/>
+            <result property="price" column="price" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        smId,name,type,
+        price
+    </sql>
+</mapper>

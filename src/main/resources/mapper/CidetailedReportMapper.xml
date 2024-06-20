@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scau.edu.cn.doctor.mapper.CidetailedReportMapper">
+
+    <resultMap id="BaseResultMap" type="com.scau.edu.cn.doctor.domain.CidetailedReport">
+            <id property="cidrId" column="cidrId" jdbcType="INTEGER"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="unit" column="unit" jdbcType="VARCHAR"/>
+            <result property="minrange" column="minrange" jdbcType="DOUBLE"/>
+            <result property="maxrange" column="maxrange" jdbcType="DOUBLE"/>
+            <result property="normalValue" column="normalValue" jdbcType="VARCHAR"/>
+            <result property="normalValueString" column="normalValueString" jdbcType="VARCHAR"/>
+            <result property="type" column="type" jdbcType="INTEGER"/>
+            <result property="value" column="value" jdbcType="VARCHAR"/>
+            <result property="isError" column="isError" jdbcType="INTEGER"/>
+            <result property="ciId" column="ciId" jdbcType="INTEGER"/>
+            <result property="orderId" column="orderId" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        cidrId,name,unit,
+        minrange,maxrange,normalValue,
+        normalValueString,type,value,
+        isError,ciId,orderId
+    </sql>
+</mapper>
