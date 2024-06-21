@@ -3,6 +3,7 @@ package com.scau.edu.cn.doctor.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.scau.edu.cn.doctor.domain.Doctor;
+import com.scau.edu.cn.doctor.request.DoctorDto;
 import com.scau.edu.cn.doctor.service.DoctorService;
 import com.scau.edu.cn.doctor.mapper.DoctorMapper;
 import com.scau.edu.cn.doctor.util.JwtUtils;
@@ -79,8 +80,15 @@ public class DoctorServiceImpl extends ServiceImpl<DoctorMapper, Doctor>
         return Result.success(result);
     }
 
+    /**
+     * 医生验证码登录
+     * @param doctorDto
+     * @return
+     */
     @Override
-    public Result loginByCode(String doctorId, String code) {
+    public Result loginByCode(DoctorDto doctorDto) {
+        String doctorId = doctorDto.getDocId();
+        String code = doctorDto.getCode();
         String codeRedis = (String) redisTemplate.opsForValue().get(doctorId);
         if (codeRedis == null) {
             return Result.error(USER_CAPTCHA_NOT_EXIST);
@@ -113,25 +121,36 @@ public class DoctorServiceImpl extends ServiceImpl<DoctorMapper, Doctor>
         return Result.success(result);
     }
 
+    /**
+     * 医生注册
+     * @param doctorDto
+     * @return
+     */
     @Override
-    public Result register(Doctor doctor, String code) {
-        String codeRedis = (String) redisTemplate.opsForValue().get(doctor.getDocId());
+    public Result register(DoctorDto doctorDto) {
+        String codeRedis = (String) redisTemplate.opsForValue().get(doctorDto.getDocId());
         if (codeRedis == null) {
             return Result.error(USER_CAPTCHA_NOT_EXIST);
         }
-        if (!code.equals(codeRedis)) {
+        if (!doctorDto.getCode().equals(codeRedis)) {
             return Result.error(USER_CAPTCHA_ERROR);
         }
-        Doctor userResult = this.getById(doctor.getDocId());
-        if (userResult != null) {
+        String DocId = doctorDto.getDocId();
+        Doctor doctorResult = this.getById(DocId);
+        if (doctorResult != null) {
             return Result.error(USER_REGISTER_ALREADY_EXIST);
         }
-        boolean result = this.save(doctor);
+        boolean result = this.save(doctorResult);
         if (result)
-            return Result.success(doctor);
+            return Result.success(doctorResult);
         else return Result.error(USER_REGISTER_FAILED);
     }
 
+    /**
+     * 发送验证码
+     * @param phone
+     * @return
+     */
     @Override
     public Result sendCode(String phone) {
         //先判断该手机号是否已经发送过验证码
@@ -146,23 +165,30 @@ public class DoctorServiceImpl extends ServiceImpl<DoctorMapper, Doctor>
         return Result.success();
     }
 
+    /**
+     * 修改密码
+     * @param doctorDto
+     * @return
+     */
     @Override
-    public Result updatePasswordProcess(Doctor doctor, String code) {
-        Doctor doc = this.getById(doctor.getDocId());
+    public Result updatePasswordProcess(DoctorDto doctorDto) {
+        String DocId=doctorDto.getDocId();
+        String code=doctorDto.getCode();
+        Doctor doc = this.getById(DocId);
         if(doc==null){
             return Result.error(USER_UPDATE_PASSWORD_NOT_EXIST);
         }
-        String codeRedis = (String) redisTemplate.opsForValue().get(doctor.getDocId());
+        String codeRedis = (String) redisTemplate.opsForValue().get(DocId);
         if (codeRedis == null) {
             return Result.error(USER_CAPTCHA_NOT_EXIST);
         }
         if (!code.equals(codeRedis)) {
             return Result.error(USER_CAPTCHA_ERROR);
         }
-
-        boolean result = this.updateById(doctor);
+        doc.setPassword(doctorDto.getPassword());
+        boolean result = this.updateById(doc);
         if (result)
-            return Result.success(doctor);
+            return Result.success(doc);
         else return Result.error(USER_UPDATE_PASSWORD_FAILED);
     }
 }

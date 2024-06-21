@@ -1,6 +1,7 @@
 package com.scau.edu.cn.doctor.controller;
 
 import com.scau.edu.cn.doctor.domain.Doctor;
+import com.scau.edu.cn.doctor.request.DoctorDto;
 import com.scau.edu.cn.doctor.service.DoctorService;
 import com.scau.edu.cn.doctor.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,47 +31,42 @@ public class DoctorController {
 
     /**
      * 验证码登录
-     * @param doctorId
-     *  @param code
+     * @param doctorDto
      * @return
      */
     @PostMapping("loginByCode")
-    public Result loginByCode (@RequestParam String doctorId, @RequestParam String code) {
+    public Result loginByCode (@RequestBody DoctorDto doctorDto) {
 
-        return doctorService.loginByCode(doctorId,code);
+        return doctorService.loginByCode(doctorDto);
     }
-
 
     /**
      * 注册
-     * @param doctor
+     * @param doctorDto
      * @return
      */
     @PostMapping("register")
-
-
-    public Result register(@RequestBody Doctor doctor,@RequestParam("code") String code) {
-        return doctorService.register(doctor,code);
+    public Result register(@RequestBody DoctorDto doctorDto) {
+        return doctorService.register(doctorDto);
     }
 
     /**
      * 发送验证码
-     * @param phone
+     * @param docId
      * @return
      */
     @GetMapping("sendCode")
-    public Result sendCode(@RequestParam("phone") String phone) {
-        return doctorService.sendCode(phone);
+    public Result sendCode(@RequestParam("docId") String docId) {
+        return doctorService.sendCode(docId);
     }
 
     /**
      * 修改密码发送验证码
-     * @param Users
-     * @param code
+     * @param doctorDto
      * @return
      */
     @PostMapping("updatePassword")
-    public Result updatePasswordProcess(@RequestBody Doctor doctor,@RequestParam("code") String code) {
-        return doctorService.updatePasswordProcess(doctor,code);
+    public Result updatePasswordProcess(@RequestBody DoctorDto doctorDto) {
+        return doctorService.updatePasswordProcess(doctorDto);
     }
 }

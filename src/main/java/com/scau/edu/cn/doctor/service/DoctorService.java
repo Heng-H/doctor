@@ -2,6 +2,7 @@ package com.scau.edu.cn.doctor.service;
 
 import com.scau.edu.cn.doctor.domain.Doctor;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.scau.edu.cn.doctor.request.DoctorDto;
 import com.scau.edu.cn.doctor.util.Result;
 
 /**
@@ -13,11 +14,11 @@ public interface DoctorService extends IService<Doctor> {
 
     Result login(Doctor doctor);
 
-    Result loginByCode(String doctorId, String code);
+    Result loginByCode(DoctorDto doctorDto);
 
-    Result register(Doctor doctor, String code);
+    Result register(DoctorDto doctorDto);
 
     Result sendCode(String phone);
 
-    Result updatePasswordProcess(Doctor doctor, String code);
+    Result updatePasswordProcess(DoctorDto doctorDto);
 }
