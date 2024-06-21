@@ -129,6 +129,7 @@ public class DoctorServiceImpl extends ServiceImpl<DoctorMapper, Doctor>
     @Override
     public Result register(DoctorDto doctorDto) {
         String codeRedis = (String) redisTemplate.opsForValue().get(doctorDto.getDocId());
+        //验证码校验
         if (codeRedis == null) {
             return Result.error(USER_CAPTCHA_NOT_EXIST);
         }
@@ -136,8 +137,11 @@ public class DoctorServiceImpl extends ServiceImpl<DoctorMapper, Doctor>
             return Result.error(USER_CAPTCHA_ERROR);
         }
         String DocId = doctorDto.getDocId();
+        String DocCode = doctorDto.getDocCode();
         Doctor doctorResult = this.getById(DocId);
-        if (doctorResult != null) {
+        Doctor doctorResult2 = this.getOne(new QueryWrapper<Doctor>().eq("docCode", DocCode));
+        //判断该用户是否已经注册
+        if (doctorResult != null || doctorResult2 != null) {
             return Result.error(USER_REGISTER_ALREADY_EXIST);
         }
         boolean result = this.save(doctorResult);
