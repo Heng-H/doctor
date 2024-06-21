@@ -14,7 +14,7 @@
     </resultMap>
 
     <!--查询指定行数据-->
-    <select id="queryAll" resultMap="OrdersMap">
+    <select id="queryAll" resultMap="BaseResultMap" resultType="com.scau.edu.cn.doctor.domain.Orders">
         select
         orderId, orderDate, userId, hpId, smId, state
         from orders
