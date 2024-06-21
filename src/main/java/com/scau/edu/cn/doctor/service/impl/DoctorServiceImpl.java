@@ -7,6 +7,7 @@ import com.scau.edu.cn.doctor.service.DoctorService;
 import com.scau.edu.cn.doctor.mapper.DoctorMapper;
 import com.scau.edu.cn.doctor.util.JwtUtils;
 import com.scau.edu.cn.doctor.util.Result;
+import com.scau.edu.cn.doctor.util.SendMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -17,8 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import static com.scau.edu.cn.doctor.util.Status.USER_LOGIN_NOT_EXIST;
-import static com.scau.edu.cn.doctor.util.Status.USER_LOGIN_PASSWORD_ERROR;
+import static com.scau.edu.cn.doctor.util.Status.*;
 
 /**
 * @author 86153
@@ -29,8 +29,6 @@ import static com.scau.edu.cn.doctor.util.Status.USER_LOGIN_PASSWORD_ERROR;
 public class DoctorServiceImpl extends ServiceImpl<DoctorMapper, Doctor>
     implements DoctorService{
 
-    @Resource
-    private DoctorService doctorService;
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
@@ -44,10 +42,10 @@ public class DoctorServiceImpl extends ServiceImpl<DoctorMapper, Doctor>
     public Result login(Doctor doctor) {
         Doctor doc = null;
         if(doctor.getDocCode()!=null) {
-            doc = doctorService.getOne(new QueryWrapper<Doctor>().eq("docCode", doctor.getDocCode()));
+            doc = this.getOne(new QueryWrapper<Doctor>().eq("docCode", doctor.getDocCode()));
         }
         else{
-            doc = doctorService.getById(doctor.getDocId());
+            doc = this.getById(doctor.getDocId());
         }
 
         if(doc==null){
@@ -79,6 +77,93 @@ public class DoctorServiceImpl extends ServiceImpl<DoctorMapper, Doctor>
         result.put("doctor", doc);
         System.out.println(result);
         return Result.success(result);
+    }
+
+    @Override
+    public Result loginByCode(String doctorId, String code) {
+        String codeRedis = (String) redisTemplate.opsForValue().get(doctorId);
+        if (codeRedis == null) {
+            return Result.error(USER_CAPTCHA_NOT_EXIST);
+        }
+        if (!code.equals(codeRedis)) {
+            return Result.error(USER_CAPTCHA_ERROR);
+        }
+        Doctor doctor = this.getById(doctorId);
+        if(doctor==null){
+            return Result.error(USER_LOGIN_NOT_EXIST);
+        }
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("docId", doctor.getDocId());
+        String token = JwtUtils.generateJwt(map);
+        // 准备一个HashMap来存储与JWT关联的额外信息到Redis
+        Map<String, String> tokenInfo = new HashMap<>();
+        tokenInfo.put("docId", doctor.getDocId()); // 存储用户ID，便于根据token查找用户
+        tokenInfo.put("token", token); // 可选，也可以只存储token作为标识
+        tokenInfo.put("expiration", String.valueOf(System.currentTimeMillis() + 1800000L)); // 存储JWT的过期时间戳
+        // 将token作为键，关联信息作为值存入Redis
+        //设计这个键的时间长度，可以根据实际情况设置，比如15分钟，30分钟，1小时，1天等等
+
+        redisTemplate.opsForHash().putAll(token, tokenInfo);
+        redisTemplate.expire(token, 1800, TimeUnit.SECONDS);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("token", token);
+        result.put("doctor", doctor);
+        return Result.success(result);
+    }
+
+    @Override
+    public Result register(Doctor doctor, String code) {
+        String codeRedis = (String) redisTemplate.opsForValue().get(doctor.getDocId());
+        if (codeRedis == null) {
+            return Result.error(USER_CAPTCHA_NOT_EXIST);
+        }
+        if (!code.equals(codeRedis)) {
+            return Result.error(USER_CAPTCHA_ERROR);
+        }
+        Doctor userResult = this.getById(doctor.getDocId());
+        if (userResult != null) {
+            return Result.error(USER_REGISTER_ALREADY_EXIST);
+        }
+        boolean result = this.save(doctor);
+        if (result)
+            return Result.success(doctor);
+        else return Result.error(USER_REGISTER_FAILED);
+    }
+
+    @Override
+    public Result sendCode(String phone) {
+        //先判断该手机号是否已经发送过验证码
+        if (redisTemplate.opsForValue().get(phone) != null) {
+            return Result.error(USER_CAPTCHA_SEND_TOO_FAST);
+        }
+        //TODO 发送验证码
+        SendMessage sendMessage = new SendMessage();
+        String result = sendMessage.message(phone);
+
+        redisTemplate.opsForValue().set(phone, result, 60, TimeUnit.SECONDS);
+        return Result.success();
+    }
+
+    @Override
+    public Result updatePasswordProcess(Doctor doctor, String code) {
+        Doctor doc = this.getById(doctor.getDocId());
+        if(doc==null){
+            return Result.error(USER_UPDATE_PASSWORD_NOT_EXIST);
+        }
+        String codeRedis = (String) redisTemplate.opsForValue().get(doctor.getDocId());
+        if (codeRedis == null) {
+            return Result.error(USER_CAPTCHA_NOT_EXIST);
+        }
+        if (!code.equals(codeRedis)) {
+            return Result.error(USER_CAPTCHA_ERROR);
+        }
+
+        boolean result = this.updateById(doctor);
+        if (result)
+            return Result.success(doctor);
+        else return Result.error(USER_UPDATE_PASSWORD_FAILED);
     }
 }
 

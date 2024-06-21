@@ -18,6 +18,8 @@ public enum Status {
     USER_LOGIN_PASSWORD_ERROR(500, "密码错误"),
     USER_REGISTER_FAILED(500, "用户注册失败"),
     USER_REGISTER_ALREADY_EXIST(500, "用户已存在"),
+    //修改密码失败
+
   /*  //验证码正确
     USER_CAPTCHA_SUCCESS(6, "验证码正确"),*/
     //验证码错误
