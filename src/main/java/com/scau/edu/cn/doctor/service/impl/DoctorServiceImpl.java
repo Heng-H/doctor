@@ -30,19 +30,24 @@ public class DoctorServiceImpl extends ServiceImpl<DoctorMapper, Doctor>
     implements DoctorService{
 
     @Resource
-    private DoctorMapper doctorMapper;
+    private DoctorService doctorService;
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
 
+    /**
+     * 医生登录,返回token
+     * @param doctor
+     * @return
+     */
     @Override
     public Result login(Doctor doctor) {
         Doctor doc = null;
         if(doctor.getDocCode()!=null) {
-            doc = doctorMapper.selectOne(new QueryWrapper<Doctor>().eq("docCode", doctor.getDocCode()));
+            doc = doctorService.getOne(new QueryWrapper<Doctor>().eq("docCode", doctor.getDocCode()));
         }
         else{
-            doc = doctorMapper.selectById(doctor.getDocId());
+            doc = doctorService.getById(doctor.getDocId());
         }
 
         if(doc==null){
