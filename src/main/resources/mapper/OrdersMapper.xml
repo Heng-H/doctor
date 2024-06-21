@@ -13,6 +13,34 @@
             <result property="state" column="state" jdbcType="INTEGER"/>
     </resultMap>
 
+    <!--查询指定行数据-->
+    <select id="queryAll" resultMap="OrdersMap">
+        select
+        orderId, orderDate, userId, hpId, smId, state
+        from orders
+        <where>
+            <if test="orderId != null">
+                and orderId = #{orderId}
+            </if>
+            <if test="orderDate != null">
+                and orderDate = #{orderDate}
+            </if>
+            <if test="userId != null and userId != ''">
+                and userId = #{userId}
+            </if>
+            <if test="hpId != null">
+                and hpId = #{hpId}
+            </if>
+            <if test="smId != null">
+                and smId = #{smId}
+            </if>
+            <if test="state != null">
+                and state = #{state}
+            </if>
+        </where>
+        order by orderDate DESC
+    </select>
+
     <sql id="Base_Column_List">
         orderId,orderDate,userId,
         hpId,smId,state

@@ -2,6 +2,7 @@ package com.scau.edu.cn.doctor.service;
 
 import com.scau.edu.cn.doctor.domain.Orders;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.scau.edu.cn.doctor.util.Result;
 
 /**
 * @author 86153
@@ -10,4 +11,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface OrdersService extends IService<Orders> {
 
+    Result checkOrder(Orders order);
 }

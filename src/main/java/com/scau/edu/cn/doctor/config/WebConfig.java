@@ -20,6 +20,6 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
 
-        registry.addInterceptor(loginInterceptor).addPathPatterns("/**").excludePathPatterns("/users/**").excludePathPatterns("/templates/**");
+        registry.addInterceptor(loginInterceptor).addPathPatterns("/**").excludePathPatterns("/doctor/**").excludePathPatterns("/templates/**");
     }
 }
