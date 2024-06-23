@@ -30,8 +30,8 @@ public class OrdersController {
         return ordersService.checkOrder(usersDto);
     }
 
-    @PostMapping("setState")
-    public Result setState(@RequestBody String ordersId) {
-        return ordersService.setState(ordersId);
+    @PostMapping("updateState")
+    public Result updateState(@RequestBody String ordersId) {
+        return ordersService.updateState(ordersId);
     }
 }

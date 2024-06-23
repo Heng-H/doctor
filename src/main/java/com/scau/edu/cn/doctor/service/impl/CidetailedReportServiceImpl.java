@@ -34,7 +34,7 @@ public class CidetailedReportServiceImpl extends ServiceImpl<CidetailedReportMap
     }
 
     @Override
-    public Result setCidetailedReport(CidetailedReportDto cidetailedReportDto) {
+    public Result updateCidetailedReport(CidetailedReportDto cidetailedReportDto) {
         CidetailedReport cidetailedReport = this.getOne(new QueryWrapper<CidetailedReport>().eq("orderId", cidetailedReportDto.getOrderId()).eq("clId", cidetailedReportDto.getClId()).eq("name", cidetailedReportDto.getName()));
         if(cidetailedReport == null||cidetailedReport.getCidrId() == null){
             return Result.error(ORDER_FIND_NOT_EXIST);

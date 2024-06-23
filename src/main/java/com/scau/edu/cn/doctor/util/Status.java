@@ -51,6 +51,16 @@ public enum Status {
 
     CIREPORT_FIND_NOT_EXIST(500, "诊断报告不存在"),
 
+    //新增总检结论项失败
+    CIREPORT_SAVE_CONCLUSION_FAILED(500, "新增总检结论项失败"),
+
+    //修改总检结论项失败
+    CIREPORT_UPDATE_CONCLUSION_FAILED(500, "修改总检结论项失败"),
+
+    //总检结论项不存在
+    CIREPORT_UPDATE_CONCLUSION_NOT_EXIST(500, "总检结论项不存在"),
+
+
     //保存检查项失败
     CIREPORT_SAVE_FAILED(500, "保存检查项失败"),
     //体检报告归档失败
