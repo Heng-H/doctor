@@ -14,5 +14,5 @@ public interface CidetailedReportService extends IService<CidetailedReport> {
 
     Result getCidetailedReport(CidetailedReportDto cidetailedReportDto);
 
-    Result setCidetailedReport(CidetailedReportDto cidetailedReportDto);
+    Result updateCidetailedReport(CidetailedReportDto cidetailedReportDto);
 }

@@ -2,6 +2,7 @@ package com.scau.edu.cn.doctor.service;
 
 import com.scau.edu.cn.doctor.domain.OverallResult;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.scau.edu.cn.doctor.util.Result;
 
 /**
 * @author 86153
@@ -10,4 +11,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface OverallResultService extends IService<OverallResult> {
 
+    Result creatOverallResult(OverallResult overallResult);
+
+    Result updateOverallResult(OverallResult overallResult);
+
+    Result deleteOverallResult(Integer orId);
 }

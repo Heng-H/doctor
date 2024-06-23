@@ -83,7 +83,7 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders>
     }
 
     @Override
-    public Result setState(String ordersId) {
+    public Result updateState(String ordersId) {
         Orders orders = this.getById(ordersId);
         orders.setState(2);
         boolean result = this.updateById(orders);

@@ -25,10 +25,10 @@ public class CidetailedReportController {
         return cidetailedReportService.getCidetailedReport(cidetailedReportDto);
     }
 
-    @PostMapping("setCidetailedReport")
-    public Result setCidetailedReport(@RequestBody CidetailedReportDto cidetailedReportDto)
+    @PostMapping("updateCidetailedReport")
+    public Result updateCidetailedReport(@RequestBody CidetailedReportDto cidetailedReportDto)
     {
-        return cidetailedReportService.setCidetailedReport(cidetailedReportDto);
+        return cidetailedReportService.updateCidetailedReport(cidetailedReportDto);
     }
 
 }
