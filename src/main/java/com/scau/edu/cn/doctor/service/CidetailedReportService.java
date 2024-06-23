@@ -2,6 +2,8 @@ package com.scau.edu.cn.doctor.service;
 
 import com.scau.edu.cn.doctor.domain.CidetailedReport;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.scau.edu.cn.doctor.request.CidetailedReportDto;
+import com.scau.edu.cn.doctor.util.Result;
 
 /**
 * @author 86153
@@ -10,4 +12,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface CidetailedReportService extends IService<CidetailedReport> {
 
+    Result getCidetailedReport(CidetailedReportDto cidetailedReportDto);
+
+    Result setCidetailedReport(CidetailedReportDto cidetailedReportDto);
 }

@@ -49,7 +49,12 @@ public enum Status {
 
     SETMEAL_FIND_NOT_EXIST(500, "套餐不存在"),
 
-    CIREPORT_FIND_NOT_EXIST(500, "诊断报告不存在");
+    CIREPORT_FIND_NOT_EXIST(500, "诊断报告不存在"),
+
+    //保存检查项失败
+    CIREPORT_SAVE_FAILED(500, "保存检查项失败"),
+    //体检报告归档失败
+    CIREPORT_ARCHIVE_FAILED(500, "体检报告归档失败");
 
 
     private final Integer code;

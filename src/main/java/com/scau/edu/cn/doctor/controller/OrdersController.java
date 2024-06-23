@@ -29,4 +29,9 @@ public class OrdersController {
     public Result checkOrder(@RequestBody UsersDto usersDto) {
         return ordersService.checkOrder(usersDto);
     }
+
+    @PostMapping("setState")
+    public Result setState(@RequestBody String ordersId) {
+        return ordersService.setState(ordersId);
+    }
 }

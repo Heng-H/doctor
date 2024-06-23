@@ -22,6 +22,7 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.scau.edu.cn.doctor.util.Status.CIREPORT_ARCHIVE_FAILED;
 import static com.scau.edu.cn.doctor.util.Status.ORDER_FIND_NOT_EXIST;
 
 /**
@@ -80,6 +81,20 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders>
 
         return Result.success(orderInfoResponses);
     }
+
+    @Override
+    public Result setState(String ordersId) {
+        Orders orders = this.getById(ordersId);
+        orders.setState(2);
+        boolean result = this.updateById(orders);
+        if(result){
+            return Result.success();
+        }else{
+            return Result.error(CIREPORT_ARCHIVE_FAILED);
+        }
+    }
+
+
 }
 
 

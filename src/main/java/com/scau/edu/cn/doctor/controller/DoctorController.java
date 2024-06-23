@@ -55,8 +55,8 @@ public class DoctorController {
      * @param docId
      * @return
      */
-    @GetMapping("sendCode")
-    public Result sendCode(@RequestParam("docId") String docId) {
+    @GetMapping("sendCode/{docId}")
+    public Result sendCode(@PathVariable("docId") String docId) {
         return doctorService.sendCode(docId);
     }
 

@@ -13,4 +13,6 @@ import com.scau.edu.cn.doctor.util.Result;
 public interface OrdersService extends IService<Orders> {
 
     Result checkOrder(UsersDto usersDto);
+
+    Result setState(String ordersId);
 }
