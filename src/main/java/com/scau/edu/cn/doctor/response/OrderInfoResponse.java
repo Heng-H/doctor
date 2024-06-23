@@ -18,7 +18,7 @@ public class OrderInfoResponse {
     /**预约日期*/private Date orderDate;
     /**客户编号*/private String userId;
     /**所属医院编号*/private String hpName;
-    /**所属套餐编号*/private Integer smName;
+    /**所属套餐编号*/private String smName;
     /**客户性别*/private String sex;
     /**客户姓名*/private String realName;
 }

@@ -1,6 +1,7 @@
 package com.scau.edu.cn.doctor.controller;
 
 import com.scau.edu.cn.doctor.domain.Orders;
+import com.scau.edu.cn.doctor.request.UsersDto;
 import com.scau.edu.cn.doctor.service.OrdersService;
 import com.scau.edu.cn.doctor.util.Result;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,11 +22,11 @@ public class OrdersController {
 
     /**
      * 查询订单
-     * @param order
+     * @param usersDto
      * @return
      */
     @PostMapping("checkOrder")
-    public Result checkOrder(@RequestBody Orders order) {
-        return ordersService.checkOrder(order);
+    public Result checkOrder(@RequestBody UsersDto usersDto) {
+        return ordersService.checkOrder(usersDto);
     }
 }

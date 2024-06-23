@@ -14,6 +14,36 @@
             <result property="userType" column="userType" jdbcType="INTEGER"/>
     </resultMap>
 
+    <!--查询指定行数据-->
+    <select id="queryAll" resultMap="BaseResultMap" resultType="com.scau.edu.cn.doctor.domain.Users">
+        select
+        userId, password, realName, sex, identityCard, birthday, userType
+        from users
+        <where>
+            <if test="userId != null and userId != ''">
+                and userId = #{userId}
+            </if>
+            <if test="password != null and password != ''">
+                and password = #{password}
+            </if>
+            <if test="realName != null and realName != ''">
+                and realName = #{realName}
+            </if>
+            <if test="sex != null">
+                and sex = #{sex}
+            </if>
+            <if test="identityCard != null and identityCard != ''">
+                and identityCard = #{identityCard}
+            </if>
+            <if test="birthday != null">
+                and birthday = #{birthday}
+            </if>
+            <if test="userType != null">
+                and userType = #{userType}
+            </if>
+        </where>
+    </select>
+
     <sql id="Base_Column_List">
         userId,password,realName,
         sex,identityCard,birthday,
