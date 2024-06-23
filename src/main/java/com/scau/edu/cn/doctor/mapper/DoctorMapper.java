@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 * @Entity com.scau.edu.cn.doctor.domain.Doctor
 */
 public interface DoctorMapper extends BaseMapper<Doctor> {
+
 }
 
 

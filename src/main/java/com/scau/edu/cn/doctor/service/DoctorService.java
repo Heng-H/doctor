@@ -12,7 +12,7 @@ import com.scau.edu.cn.doctor.util.Result;
 */
 public interface DoctorService extends IService<Doctor> {
 
-    Result login(Doctor doctor);
+    Result login(DoctorDto doctorDto);
 
     Result loginByCode(DoctorDto doctorDto);
 

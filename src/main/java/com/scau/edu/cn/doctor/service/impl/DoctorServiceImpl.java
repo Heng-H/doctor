@@ -1,5 +1,6 @@
 package com.scau.edu.cn.doctor.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.scau.edu.cn.doctor.domain.Doctor;
@@ -33,27 +34,31 @@ public class DoctorServiceImpl extends ServiceImpl<DoctorMapper, Doctor>
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
+    @Resource
+    private DoctorMapper doctorMapper;
 
     /**
      * 医生登录,返回token
-     * @param doctor
+     * @param doctorDto
      * @return
      */
     @Override
-    public Result login(Doctor doctor) {
-        Doctor doc = null;
-        if(doctor.getDocCode()!=null) {
-            doc = this.getOne(new QueryWrapper<Doctor>().eq("docCode", doctor.getDocCode()));
-        }
-        else{
-            doc = this.getById(doctor.getDocId());
-        }
+    public Result login(DoctorDto doctorDto) {
+        String docIdOrCode = doctorDto.getDocIdOrCode();
+        String password = doctorDto.getPassword();
+        //根据docIdOrCode查询医生
+
+        Wrapper<Doctor> wrapper = new QueryWrapper<Doctor>()
+                .eq("docId", docIdOrCode).or()
+                .eq("docCode", docIdOrCode);
+
+        Doctor doc=this.getOne(wrapper);
 
         if(doc==null){
             return Result.error(USER_LOGIN_NOT_EXIST);
         }
         else{
-            if(!doc.getPassword().equals(doctor.getPassword())){
+            if(!doc.getPassword().equals(password)){
                 return Result.error(USER_LOGIN_PASSWORD_ERROR);
             }
         }

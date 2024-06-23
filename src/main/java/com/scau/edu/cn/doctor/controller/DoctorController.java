@@ -20,13 +20,13 @@ public class DoctorController {
 
     /**
      * 登录
-     * @param doctor
+     * @param doctorDto
      * @return
      */
     @PostMapping("login")
-    public Result login (@RequestBody Doctor doctor) {
+    public Result login (@RequestBody DoctorDto doctorDto) {
 
-        return doctorService.login(doctor);
+        return doctorService.login(doctorDto);
     }
 
     /**
@@ -36,7 +36,6 @@ public class DoctorController {
      */
     @PostMapping("loginByCode")
     public Result loginByCode (@RequestBody DoctorDto doctorDto) {
-
         return doctorService.loginByCode(doctorDto);
     }
 
