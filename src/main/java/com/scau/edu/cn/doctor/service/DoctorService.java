@@ -18,7 +18,7 @@ public interface DoctorService extends IService<Doctor> {
 
     Result register(DoctorDto doctorDto);
 
-    Result sendCode(String phone);
+    Result sendCode(String phone,Integer type) throws Exception;
 
     Result updatePasswordProcess(DoctorDto doctorDto);
 }

@@ -10,6 +10,7 @@ import com.scau.edu.cn.doctor.mapper.DoctorMapper;
 import com.scau.edu.cn.doctor.util.JwtUtils;
 import com.scau.edu.cn.doctor.util.Result;
 import com.scau.edu.cn.doctor.util.SendMessage;
+import com.scau.edu.cn.doctor.util.SendSms;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -161,16 +162,18 @@ public class DoctorServiceImpl extends ServiceImpl<DoctorMapper, Doctor>
      * @return
      */
     @Override
-    public Result sendCode(String phone) {
+    public Result sendCode(String phone,Integer type) throws Exception {
         //先判断该手机号是否已经发送过验证码
         if (redisTemplate.opsForValue().get(phone) != null) {
             return Result.error(USER_CAPTCHA_SEND_TOO_FAST);
         }
         //TODO 发送验证码
-        SendMessage sendMessage = new SendMessage();
-        String result = sendMessage.message(phone);
+//        SendMessage sendMessage = new SendMessage();
+        //String result = sendMessage.message(phone);
+        SendSms sendSms = new SendSms();
+       Result result=sendSms.sendSms(phone,type);
 
-        redisTemplate.opsForValue().set(phone, result, 60, TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set(phone, result.getData(), 60, TimeUnit.SECONDS);
         return Result.success();
     }
 
