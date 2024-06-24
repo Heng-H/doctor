@@ -26,7 +26,9 @@ public class OrdersController {
      * @return
      */
     @PostMapping("checkOrder")
-    public Result checkOrder(@RequestBody UsersDto usersDto) {
+    public Result checkOrder(@RequestBody UsersDto usersDto)
+    {
+        System.out.println(usersDto.toString());
         return ordersService.checkOrder(usersDto);
     }
 

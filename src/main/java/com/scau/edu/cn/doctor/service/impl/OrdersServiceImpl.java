@@ -51,16 +51,23 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders>
     private UsersMapper usersMapper;
 
     @Override
-    public Result< List<OrderInfoResponse>> checkOrder(UsersDto usersDto) {
+    public Result<Map<String, Object>> checkOrder(UsersDto usersDto) {
 
         Users user = new Users();
         user.setRealName(usersDto.getRealName());
         user.setUserId(usersDto.getUserId());
         user.setSex(usersDto.getSex());
 
-        List<Users> usersList = usersMapper.queryAll(user);
-        List<String> userIdList = new ArrayList<>();
 
+        QueryWrapper<Users> queryWrapper = new QueryWrapper<>();
+        queryWrapper.like(usersDto.getRealName()!=null, "realName", usersDto.getRealName())
+                    .like(usersDto.getUserId()!=null, "userId", usersDto.getUserId())
+                    .eq(usersDto.getSex()!=null, "sex", usersDto.getSex());
+
+        List<Users> usersList = usersMapper.selectList(queryWrapper);
+
+        List<Users> usersList1 = usersMapper.queryAll(user);
+        List<String> userIdList = new ArrayList<>();
 
         if(usersList.size() == 0||usersList==null){
             return Result.error(ORDER_FIND_NOT_EXIST);
@@ -71,7 +78,7 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders>
             }
         }
 
-        Page<Orders> ordersPage = new Page<>(usersDto.getPage(), 5);
+        Page<Orders> ordersPage = new Page<>(usersDto.getPage(), usersDto.getPageSize());
     System.out.println(usersDto.getPage());
         //假如orders有值，是为查找的条件
 
@@ -106,8 +113,12 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders>
                 orderInfoResponses.add(orderInfoResponse);
             }
 
+            Map<String, Object> map = new HashMap<>();
+            map.put("total", orderIPage.getTotal());
+            map.put("list", orderInfoResponses);
+            map.put("totalPage", ordersPage.getPages());
 
-            return Result.success(orderInfoResponses);
+            return Result.success(map);
 
     }
 
