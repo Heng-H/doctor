@@ -19,4 +19,5 @@ public class UsersDto {
     private Date orderDate;
     private Integer state;
     private Integer page;
+    private Integer pageSize;
 }
