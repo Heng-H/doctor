@@ -3,10 +3,7 @@ package com.scau.edu.cn.doctor.controller;
 
 import com.scau.edu.cn.doctor.service.CheckItemService;
 import com.scau.edu.cn.doctor.util.Result;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -19,8 +16,13 @@ public class CheckItemController {
     @Resource
     private CheckItemService checkItemService;
 
-    @PostMapping("getCheckItem")
-    public Result getCheckItem(@RequestBody String orderId){
+    /**
+     * 获取检查项
+     * @param orderId
+     * @return
+     */
+    @GetMapping("getCheckItem/{orderId}")
+    public Result getCheckItem(@RequestParam String orderId){
         return checkItemService.getCheckItem(orderId);
     }
 }

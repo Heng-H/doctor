@@ -168,12 +168,13 @@ public class DoctorServiceImpl extends ServiceImpl<DoctorMapper, Doctor>
             return Result.error(USER_CAPTCHA_SEND_TOO_FAST);
         }
         //TODO 发送验证码
-//        SendMessage sendMessage = new SendMessage();
-        //String result = sendMessage.message(phone);
-        SendSms sendSms = new SendSms();
-       Result result=sendSms.sendSms(phone,type);
-
-        redisTemplate.opsForValue().set(phone, result.getData(), 60, TimeUnit.SECONDS);
+        SendMessage sendMessage = new SendMessage();
+        String result = sendMessage.message(phone);
+        redisTemplate.opsForValue().set(phone, result, 60, TimeUnit.SECONDS);
+//        SendSms sendSms = new SendSms();
+//       Result result=sendSms.sendSms(phone,type);
+//
+//        redisTemplate.opsForValue().set(phone, result.getData(), 60, TimeUnit.SECONDS);
         return Result.success();
     }
 

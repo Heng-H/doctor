@@ -4,10 +4,7 @@ import com.scau.edu.cn.doctor.domain.Orders;
 import com.scau.edu.cn.doctor.request.UsersDto;
 import com.scau.edu.cn.doctor.service.OrdersService;
 import com.scau.edu.cn.doctor.util.Result;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -30,8 +27,13 @@ public class OrdersController {
         return ordersService.checkOrder(usersDto);
     }
 
-    @PostMapping("updateState")
-    public Result updateState(@RequestBody String ordersId) {
+    /**
+     * 体检报告归档
+     * @param ordersId
+     * @return
+     */
+    @GetMapping("updateState/{ordersId}")
+    public Result updateState(@PathVariable String ordersId) {
         return ordersService.updateState(ordersId);
     }
 }

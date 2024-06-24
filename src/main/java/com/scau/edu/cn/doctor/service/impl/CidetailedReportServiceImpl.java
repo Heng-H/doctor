@@ -25,7 +25,9 @@ public class CidetailedReportServiceImpl extends ServiceImpl<CidetailedReportMap
 
     @Override
     public Result getCidetailedReport(CidetailedReportDto cidetailedReportDto) {
-        List<CidetailedReport> cidetailedReportList = this.list(new QueryWrapper<CidetailedReport>().eq("orderId", cidetailedReportDto.getOrderId()).eq("clId", cidetailedReportDto.getClId()));
+        List<CidetailedReport> cidetailedReportList = this.list(new QueryWrapper<CidetailedReport>()
+                .eq("orderId", cidetailedReportDto.getOrderId())
+                .eq("ciId", cidetailedReportDto.getCiId()));
         if (cidetailedReportList.size() == 0|| cidetailedReportList == null) {
             return Result.error(ORDER_FIND_NOT_EXIST);
         } else {
@@ -35,7 +37,7 @@ public class CidetailedReportServiceImpl extends ServiceImpl<CidetailedReportMap
 
     @Override
     public Result updateCidetailedReport(CidetailedReportDto cidetailedReportDto) {
-        CidetailedReport cidetailedReport = this.getOne(new QueryWrapper<CidetailedReport>().eq("orderId", cidetailedReportDto.getOrderId()).eq("clId", cidetailedReportDto.getClId()).eq("name", cidetailedReportDto.getName()));
+        CidetailedReport cidetailedReport = this.getOne(new QueryWrapper<CidetailedReport>().eq("orderId", cidetailedReportDto.getOrderId()).eq("ciId", cidetailedReportDto.getCiId()).eq("name", cidetailedReportDto.getName()));
         if(cidetailedReport == null||cidetailedReport.getCidrId() == null){
             return Result.error(ORDER_FIND_NOT_EXIST);
         }

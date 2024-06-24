@@ -51,7 +51,7 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders>
     private UsersMapper usersMapper;
 
     @Override
-    public Result< List<OrderInfoResponse>> checkOrder(UsersDto usersDto) {
+    public Result<Map<String,Object>> checkOrder(UsersDto usersDto) {
 
         Users user = new Users();
         user.setRealName(usersDto.getRealName());
@@ -71,7 +71,7 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders>
             }
         }
 
-        Page<Orders> ordersPage = new Page<>(usersDto.getPage(), 5);
+        Page<Orders> ordersPage = new Page<>(usersDto.getPage(), usersDto.getPageSize());
     System.out.println(usersDto.getPage());
         //假如orders有值，是为查找的条件
 
@@ -106,8 +106,13 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders>
                 orderInfoResponses.add(orderInfoResponse);
             }
 
+            Map<String, Object> map = new HashMap<>();
+            map.put("total", orderIPage.getTotal());
+            map.put("totalPage", orderIPage.getPages());
+            map.put("list", orderInfoResponses);
 
-            return Result.success(orderInfoResponses);
+
+            return Result.success(map);
 
     }
 
