@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CidetailedReportDto {
     private String orderId;
-    private String clId;
+    private String ciId;
     private String name;
     private String value;
 }

@@ -64,7 +64,11 @@ public enum Status {
     //保存检查项失败
     CIREPORT_SAVE_FAILED(500, "保存检查项失败"),
     //体检报告归档失败
-    CIREPORT_ARCHIVE_FAILED(500, "体检报告归档失败");
+    CIREPORT_ARCHIVE_FAILED(500, "体检报告归档失败"),
+
+    //套餐为空
+    SETMEAL_IS_EMPTY(500, "套餐为空"),
+    ;
 
 
     private final Integer code;
