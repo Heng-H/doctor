@@ -1,6 +1,7 @@
 package com.scau.edu.cn.doctor.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.scau.edu.cn.doctor.domain.Doctor;
@@ -20,7 +21,11 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import static com.scau.edu.cn.doctor.util.Status.CIREPORT_ARCHIVE_FAILED;
 import static com.scau.edu.cn.doctor.util.Status.ORDER_FIND_NOT_EXIST;
@@ -46,40 +51,64 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders>
     private UsersMapper usersMapper;
 
     @Override
-    public Result<Page<OrderInfoResponse>> checkOrder(UsersDto usersDto) {
-        Orders order = new Orders();
+    public Result< List<OrderInfoResponse>> checkOrder(UsersDto usersDto) {
+
         Users user = new Users();
-        List<Orders> ordersList = new ArrayList<>();
+        user.setRealName(usersDto.getRealName());
+        user.setUserId(usersDto.getUserId());
+        user.setSex(usersDto.getSex());
+
         List<Users> usersList = usersMapper.queryAll(user);
-        order.setState(usersDto.getState());
-        order.setOrderDate(usersDto.getOrderDate());
-        order.setSmId(usersDto.getSmId());
+        List<String> userIdList = new ArrayList<>();
+
+
         if(usersList.size() == 0||usersList==null){
             return Result.error(ORDER_FIND_NOT_EXIST);
         }else{
             for(Users users:usersList){
-                order.setUserId(users.getUserId());
-                ordersList.addAll(ordersMapper.queryAll(order));
+
+                userIdList.add(users.getUserId());
             }
         }
-        if(ordersList.size() == 0||ordersList==null)
-        {
-            return Result.error(ORDER_FIND_NOT_EXIST);
-        }
-        Page<OrderInfoResponse> orderInfoResponses = new Page<>(usersDto.getPage(), 2);
-        for(Orders orders:ordersList){
-            OrderInfoResponse orderInfoResponse = new OrderInfoResponse();
-            orderInfoResponse.setOrderId(orders.getOrderId());
-            orderInfoResponse.setOrderDate(orders.getOrderDate());
-            orderInfoResponse.setHpName(hospitalService.getById(orders.getHpId()).getName());
-            orderInfoResponse.setSmName(setMealService.getById(orders.getSmId()).getName());
-            orderInfoResponse.setUserId(orders.getUserId());
-            orderInfoResponse.setSex(usersService.getById(orders.getUserId()).getUserId());
-            orderInfoResponse.setRealName(usersService.getById(orders.getUserId()).getRealName());
-            orderInfoResponses.getRecords().add(orderInfoResponse);
-        }
 
-        return Result.success(orderInfoResponses);
+        Page<Orders> ordersPage = new Page<>(usersDto.getPage(), 5);
+    System.out.println(usersDto.getPage());
+        //假如orders有值，是为查找的条件
+
+
+
+        QueryWrapper<Orders> queryWrapperlist = new QueryWrapper<>();
+        queryWrapperlist.eq(usersDto.getState()!=null, "state", usersDto.getState())
+                        .eq(usersDto.getOrderDate()!=null, "orderDate", usersDto.getOrderDate())
+                        .eq(usersDto.getSmId()!=null, "smId", usersDto.getSmId())
+                                .in(userIdList.size()!=0, "userId", userIdList);
+
+        queryWrapperlist.orderByDesc("orderDate");
+
+        IPage<Orders> orderIPage = ordersMapper.selectPage(ordersPage, queryWrapperlist);
+
+            System.out.println(orderIPage.getRecords());
+
+            List<OrderInfoResponse> orderInfoResponses = new ArrayList<>();
+            for(Orders orders:orderIPage.getRecords()){
+                OrderInfoResponse orderInfoResponse = new OrderInfoResponse();
+                orderInfoResponse.setOrderId(orders.getOrderId());
+                orderInfoResponse.setOrderDate(orders.getOrderDate());
+
+                Users users = usersService.getById(orders.getUserId());
+                orderInfoResponse.setRealName(users.getRealName());
+                orderInfoResponse.setUserId(users.getUserId());
+                orderInfoResponse.setSex(users.getSex());
+
+                orderInfoResponse.setSmName(setMealService.getById(orders.getSmId()).getName());
+                orderInfoResponse.setHpName(hospitalService.getById(orders.getHpId()).getName());
+
+                orderInfoResponses.add(orderInfoResponse);
+            }
+
+
+            return Result.success(orderInfoResponses);
+
     }
 
     @Override

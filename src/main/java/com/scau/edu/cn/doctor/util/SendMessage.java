@@ -57,10 +57,10 @@ public class SendMessage {
         //请求端口
         String serverPort = "8883";
         //主账号,登陆云通讯网站后,可在控制台首页看到开发者主账号ACCOUNT SID和主账号令牌AUTH TOKEN
-        String accountSId = "2c94811c8cd4da0a01903340a74445cc";
-        String accountToken = "e9326d3925c24e03a3a66bccf7ffc03a";
+        String accountSId = System.getenv("ACCOUNT_SID");
+        String accountToken = System.getenv("ACCOUNT_TOKEN");
         //请使用管理控制台中已创建应用的APPID
-        String appId = "2c94811c8cd4da0a01903340a8bd45d3";
+        String appId = System.getenv("ACCOUNT_APP_ID");
         CCPRestSmsSDK sdk = new CCPRestSmsSDK();
         sdk.init(serverIp, serverPort);
         sdk.setAccount(accountSId, accountToken);

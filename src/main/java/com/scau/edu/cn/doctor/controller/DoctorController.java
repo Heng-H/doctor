@@ -54,7 +54,7 @@ public class DoctorController {
      * @param docId
      * @return
      */
-    @GetMapping("sendCode/{docId}")
+    @GetMapping("sendCode")
     public Result sendCode(@RequestParam("docId") String docId ,@RequestParam("type") Integer type) throws Exception {
         return doctorService.sendCode(docId,type);
     }

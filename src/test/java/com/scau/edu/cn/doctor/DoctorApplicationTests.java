@@ -1,7 +1,9 @@
 package com.scau.edu.cn.doctor;
 
 import com.scau.edu.cn.doctor.domain.Doctor;
+import com.scau.edu.cn.doctor.request.UsersDto;
 import com.scau.edu.cn.doctor.service.DoctorService;
+import com.scau.edu.cn.doctor.service.OrdersService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -12,12 +14,14 @@ class DoctorApplicationTests {
 
     @Resource
     private DoctorService doctorService;
+    @Resource
+    private OrdersService orderService;
     @Test
     void contextLoads() {
-        Doctor doctor = new Doctor();
-        doctor.setDocCode("ssm");
-        doctor.setPassword("123456");
-        System.out.println(doctorService.login(doctor));
+        UsersDto usersDto = new UsersDto();
+        usersDto.setPage(1);
+
+       orderService.checkOrder(usersDto);
     }
 
 }
