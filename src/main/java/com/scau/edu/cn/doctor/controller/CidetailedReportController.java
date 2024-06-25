@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @RestController
 @RequestMapping("/cidetailedReport")
@@ -36,9 +37,11 @@ public class CidetailedReportController {
      * @return
      */
     @PostMapping("updateCidetailedReport")
-    public Result updateCidetailedReport(@RequestBody CidetailedReportDto cidetailedReportDto)
+    public Result updateCidetailedReport(@RequestBody List<CidetailedReportDto> cidetailedReportDto)
     {
-        return cidetailedReportService.updateCidetailedReport(cidetailedReportDto);
+       return cidetailedReportService.updateCidetailedReport(cidetailedReportDto);
+
+
     }
 
 }

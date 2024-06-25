@@ -36,20 +36,23 @@ public class CidetailedReportServiceImpl extends ServiceImpl<CidetailedReportMap
     }
 
     @Override
-    public Result updateCidetailedReport(CidetailedReportDto cidetailedReportDto) {
-        CidetailedReport cidetailedReport = this.getOne(new QueryWrapper<CidetailedReport>().eq("orderId", cidetailedReportDto.getOrderId()).eq("ciId", cidetailedReportDto.getCiId()).eq("name", cidetailedReportDto.getName()));
-        if(cidetailedReport == null||cidetailedReport.getCidrId() == null){
-            return Result.error(ORDER_FIND_NOT_EXIST);
-        }
-        cidetailedReport.setValue(cidetailedReportDto.getValue());
-        if(cidetailedReport.getType()==1){
-            if(Double.parseDouble(cidetailedReportDto.getValue())<cidetailedReport.getMinrange()||Double.parseDouble(cidetailedReportDto.getValue())>cidetailedReport.getMaxrange()){
-                cidetailedReport.setIsError(1);
+    public Result updateCidetailedReport(List<CidetailedReportDto> cidetailedReportDto) {
+        for (CidetailedReportDto report : cidetailedReportDto) {
+            CidetailedReport cidetailedReport = this.getOne(new QueryWrapper<CidetailedReport>().eq("orderId", report.getOrderId()).eq("ciId", report.getCiId()).eq("name", report.getName()));
+            if (cidetailedReport == null || cidetailedReport.getCidrId() == null) {
+                return Result.error(ORDER_FIND_NOT_EXIST);
             }
-        }
-        boolean result=this.saveOrUpdate(cidetailedReport);
-        if(!result){
-            return Result.error(CIREPORT_SAVE_FAILED);
+            cidetailedReport.setValue(report.getValue());
+            if (cidetailedReport.getType() == 1) {
+                if (Double.parseDouble(report.getValue()) < cidetailedReport.getMinrange() || Double.parseDouble(report.getValue()) > cidetailedReport.getMaxrange()) {
+                    cidetailedReport.setIsError(1);
+                }
+            }
+            boolean result = this.saveOrUpdate(cidetailedReport);
+
+            if (!result) {
+                return Result.error(CIREPORT_SAVE_FAILED);
+            }
         }
         return Result.success();
     }

@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CidetailedReportDto {
-    private String orderId;
-    private String ciId;
+    private Integer orderId;
+    private Integer ciId;
     private String name;
     private String value;
 }
