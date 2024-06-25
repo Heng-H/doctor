@@ -34,7 +34,7 @@ public class CheckItemServiceImpl extends ServiceImpl<CheckItemMapper, CheckItem
     private OverallResultService overallResultService;
 
     @Override
-    public Result getCheckItem(String orderId) {
+    public Result getCheckItem(Integer orderId) {
         Map<String,Object> map = new HashMap<>();
         List<Cireport> cireportList = cireportService.list(new QueryWrapper<Cireport>().eq("orderId", orderId));
         if(cireportList.size() == 0||cireportList == null){

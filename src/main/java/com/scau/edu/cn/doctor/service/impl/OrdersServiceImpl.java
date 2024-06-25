@@ -56,7 +56,7 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders>
         Users user = new Users();
         user.setRealName(usersDto.getRealName());
         user.setUserId(usersDto.getUserId());
-        user.setSex(usersDto.getSex());
+
 
 
         QueryWrapper<Users> queryWrapper = new QueryWrapper<>();
@@ -64,9 +64,13 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders>
                     .like(usersDto.getUserId()!=null, "userId", usersDto.getUserId())
                     .eq(usersDto.getSex()!=null, "sex", usersDto.getSex());
 
-        List<Users> usersList = usersMapper.selectList(queryWrapper);
 
-        List<Users> usersList1 = usersMapper.queryAll(user);
+        List<Users> usersList = usersMapper.selectList(queryWrapper)
+
+
+                ;
+
+      /*  List<Users> usersList1 = usersMapper.queryAll(user);*/
         List<String> userIdList = new ArrayList<>();
 
         if(usersList.size() == 0||usersList==null){
@@ -86,14 +90,17 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders>
 
         QueryWrapper<Orders> queryWrapperlist = new QueryWrapper<>();
         queryWrapperlist.eq(usersDto.getState()!=null, "state", usersDto.getState())
+
                         .eq(usersDto.getOrderDate()!=null, "orderDate", usersDto.getOrderDate())
                         .eq(usersDto.getSmId()!=null, "smId", usersDto.getSmId())
-                                .in(userIdList.size()!=0, "userId", userIdList);
-
+                                .in(userIdList.size()!=0, "userId", userIdList)
+                           .ne("state", 0);
         queryWrapperlist.orderByDesc("orderDate");
 
         IPage<Orders> orderIPage = ordersMapper.selectPage(ordersPage, queryWrapperlist);
-
+        if(orderIPage.getRecords().size() == 0){
+            return Result.error(ORDER_FIND_NOT_EXIST);
+        }
             System.out.println(orderIPage.getRecords());
 
             List<OrderInfoResponse> orderInfoResponses = new ArrayList<>();

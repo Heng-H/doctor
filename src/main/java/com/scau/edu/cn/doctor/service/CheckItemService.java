@@ -11,5 +11,5 @@ import com.scau.edu.cn.doctor.util.Result;
 */
 public interface CheckItemService extends IService<CheckItem> {
 
-    Result getCheckItem(String orderId);
+    Result getCheckItem(Integer orderId);
 }

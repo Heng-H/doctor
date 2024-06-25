@@ -22,7 +22,7 @@ public class CheckItemController {
      * @return
      */
     @GetMapping("getCheckItem/{orderId}")
-    public Result getCheckItem(@RequestParam String orderId){
+    public Result getCheckItem(@PathVariable("orderId") Integer orderId){
         return checkItemService.getCheckItem(orderId);
     }
 }

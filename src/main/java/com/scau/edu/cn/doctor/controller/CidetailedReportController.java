@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 
 @RestController
-@RequestMapping("cidetailedReport")
+@RequestMapping("/cidetailedReport")
 public class CidetailedReportController {
     /**
      * 服务对象
