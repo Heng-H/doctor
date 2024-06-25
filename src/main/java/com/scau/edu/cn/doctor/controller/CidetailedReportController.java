@@ -19,12 +19,22 @@ public class CidetailedReportController {
     @Resource
     private CidetailedReportService cidetailedReportService;
 
+    /**
+     * 获取检查项明细
+     * @param cidetailedReportDto
+     * @return
+     */
     @PostMapping("getCidetailedReport")
     public Result getCidetailedReport(@RequestBody CidetailedReportDto cidetailedReportDto)
     {
         return cidetailedReportService.getCidetailedReport(cidetailedReportDto);
     }
 
+    /**
+     * 更新检查项明细
+     * @param cidetailedReportDto
+     * @return
+     */
     @PostMapping("updateCidetailedReport")
     public Result updateCidetailedReport(@RequestBody CidetailedReportDto cidetailedReportDto)
     {

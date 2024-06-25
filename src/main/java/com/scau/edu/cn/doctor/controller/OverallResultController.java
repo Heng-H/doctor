@@ -3,10 +3,7 @@ package com.scau.edu.cn.doctor.controller;
 import com.scau.edu.cn.doctor.domain.OverallResult;
 import com.scau.edu.cn.doctor.service.OverallResultService;
 import com.scau.edu.cn.doctor.util.Result;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -19,6 +16,11 @@ public class OverallResultController {
     @Resource
     private OverallResultService overallResultService;
 
+    /**
+     * 新增总检结论项
+     * @param overallResult
+     * @return
+     */
     @PostMapping("creatOverallResult")
     public Result creatOverallResult(@RequestBody OverallResult overallResult) {
         return overallResultService.creatOverallResult(overallResult);
@@ -39,8 +41,8 @@ public class OverallResultController {
      * @param orId
      * @return
      */
-    @PostMapping("deleteOverallResult")
-    public Result deleteOverallResult(@RequestBody Integer orId) {
+    @PostMapping("deleteOverallResult/{orId}")
+    public Result deleteOverallResult(@PathVariable Integer orId) {
         return overallResultService.deleteOverallResult(orId);
     }
 
