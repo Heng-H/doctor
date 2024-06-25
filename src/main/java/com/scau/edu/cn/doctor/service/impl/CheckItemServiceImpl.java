@@ -42,9 +42,7 @@ public class CheckItemServiceImpl extends ServiceImpl<CheckItemMapper, CheckItem
         }
         map.put("cireportList",cireportList);
         List<OverallResult> overallResultList = overallResultService.list(new QueryWrapper<OverallResult>().eq("orderId", orderId));
-        if(overallResultList.size() == 0||overallResultList == null){
-            return Result.error(ORDER_FIND_NOT_EXIST);
-        }
+
         map.put("overall",overallResultList);
         return Result.success(map);
     }
