@@ -49,6 +49,12 @@ public class CidetailedReportServiceImpl extends ServiceImpl<CidetailedReportMap
                 }else{
                     cidetailedReport.setIsError(0);
                 }
+            }else if(cidetailedReport.getType() == 2){
+                if (!cidetailedReport.getValue().equals(cidetailedReport.getNormalValue())) {
+                    cidetailedReport.setIsError(1);
+                }else{
+                    cidetailedReport.setIsError(0);
+                }
             }
             boolean result = this.saveOrUpdate(cidetailedReport);
 
