@@ -20,10 +20,10 @@ import com.scau.edu.cn.doctor.util.Result;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -141,6 +141,37 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders>
             return Result.error(CIREPORT_ARCHIVE_FAILED);
         }
     }
+
+    @Override
+    public Result getOrdersData()
+    {
+        //计算今天之前30天的日期
+
+        List<LocalDate> dateList = new ArrayList<>();
+        LocalDate currentDate = LocalDate.now(); // 获取当前日期
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); // 日期格式化
+
+        for(int i=0; i<30; i++){
+            dateList.add(currentDate.minusDays(29-i)); // 往回减去天数
+        }
+
+
+
+        //查询今天之前30天每一天的订单数量，并返回对应天的订单数量
+
+        List<Map<String,Object>> orderData = new ArrayList<>();
+        for(LocalDate date:dateList){
+            QueryWrapper<Orders> queryWrapper = new QueryWrapper<>();
+            queryWrapper.ne("state", 0);
+            queryWrapper.eq("orderDate", date);
+            Long count = ordersMapper.selectCount(queryWrapper);
+            Map<String,Object> map = new HashMap<>();
+            map.put("date", date);
+            map.put("count", count);
+            orderData.add(map);
+            }
+        return Result.success(orderData);
+        }
 
 
 }

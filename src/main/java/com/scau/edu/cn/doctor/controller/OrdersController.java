@@ -16,7 +16,11 @@ public class OrdersController {
      */
     @Resource
     private OrdersService ordersService;
+    @GetMapping("getOrdersData")
 
+    public Result getOrdersData() {
+        return ordersService.getOrdersData();
+    }
     /**
      * 查询订单
      * @param usersDto
@@ -39,3 +43,4 @@ public class OrdersController {
         return ordersService.updateState(ordersId);
     }
 }
+

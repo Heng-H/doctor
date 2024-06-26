@@ -4,7 +4,10 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.scau.edu.cn.doctor.domain.Hospital;
 import com.scau.edu.cn.doctor.service.HospitalService;
 import com.scau.edu.cn.doctor.mapper.HospitalMapper;
+import com.scau.edu.cn.doctor.service.OrdersService;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
 
 /**
 * @author 86153

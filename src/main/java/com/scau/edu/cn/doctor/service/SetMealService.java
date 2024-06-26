@@ -17,4 +17,5 @@ public interface SetMealService extends IService<SetMeal> {
      */
     Result checkSetMeal();
 
+    Result getMealData();
 }

@@ -30,6 +30,10 @@ public class SetMealController {
                 return setMealService.checkSetMeal();
         }
 
+        @GetMapping("getMealData")
+        public Result  getMealData(){
+                return setMealService.getMealData();
+                }
 }
 
 

@@ -15,4 +15,6 @@ public interface OrdersService extends IService<Orders> {
     Result checkOrder(UsersDto usersDto);
 
     Result updateState(String ordersId);
+
+    Result getOrdersData();
 }
