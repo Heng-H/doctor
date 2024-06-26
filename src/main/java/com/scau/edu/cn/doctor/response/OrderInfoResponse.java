@@ -21,4 +21,5 @@ public class OrderInfoResponse {
     /**所属套餐编号*/private String smName;
     /**客户性别*/private Integer sex;
     /**客户姓名*/private String realName;
+    /**订单状态*/private  Integer state;
 }

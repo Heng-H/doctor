@@ -46,6 +46,8 @@ public class CidetailedReportServiceImpl extends ServiceImpl<CidetailedReportMap
             if (cidetailedReport.getType() == 1) {
                 if (Double.parseDouble(report.getValue()) < cidetailedReport.getMinrange() || Double.parseDouble(report.getValue()) > cidetailedReport.getMaxrange()) {
                     cidetailedReport.setIsError(1);
+                }else{
+                    cidetailedReport.setIsError(0);
                 }
             }
             boolean result = this.saveOrUpdate(cidetailedReport);

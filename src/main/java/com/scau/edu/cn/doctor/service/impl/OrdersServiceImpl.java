@@ -108,6 +108,7 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders>
                 OrderInfoResponse orderInfoResponse = new OrderInfoResponse();
                 orderInfoResponse.setOrderId(orders.getOrderId());
                 orderInfoResponse.setOrderDate(orders.getOrderDate());
+                orderInfoResponse.setState(orders.getState());
 
                 Users users = usersService.getById(orders.getUserId());
                 orderInfoResponse.setRealName(users.getRealName());
