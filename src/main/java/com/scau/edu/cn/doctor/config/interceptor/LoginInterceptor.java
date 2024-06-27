@@ -53,8 +53,8 @@ public class LoginInterceptor implements HandlerInterceptor {
             return false;
         }
         //从redis中获取用户信息，判断用户是否存在，如果不存在，返回错误结果（未登录）。
-
-        if(!Boolean.TRUE.equals(redisTemplate.hasKey(jwt)))
+System.out.println(redisTemplate.hasKey("doctor:"+jwt));
+        if(!Boolean.TRUE.equals(redisTemplate.hasKey("doctor:"+jwt)))
         {
 
             log.info("redis中没有该用户信息, 返回未登录信息");
@@ -83,8 +83,8 @@ public class LoginInterceptor implements HandlerInterceptor {
                 tokenInfo.put("expiration", String.valueOf(System.currentTimeMillis() + 1800000L)); // 存储JWT的过期时间戳
                 // 将token作为键，关联信息作为值存入Redis
                 //设计这个键的时间长度，可以根据实际情况设置，比如15分钟，30分钟，1小时，1天等等
-                redisTemplate.opsForHash().putAll(newToken, tokenInfo);
-                redisTemplate.expire(newToken, 1800, TimeUnit.SECONDS);
+                redisTemplate.opsForHash().putAll("doctor:" + newToken, tokenInfo);
+                redisTemplate.expire("doctor:" +newToken, 1800, TimeUnit.SECONDS);
 
             resp.addHeader("Authorization", newToken);
             }

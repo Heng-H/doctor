@@ -76,8 +76,8 @@ public class DoctorServiceImpl extends ServiceImpl<DoctorMapper, Doctor>
         // 将token作为键，关联信息作为值存入Redis
         //设计这个键的时间长度，可以根据实际情况设置，比如15分钟，30分钟，1小时，1天等等
 
-        redisTemplate.opsForHash().putAll(token, tokenInfo);
-        redisTemplate.expire(token, 1800, TimeUnit.SECONDS);
+        redisTemplate.opsForHash().putAll("doctor:" + token, tokenInfo);
+        redisTemplate.expire("doctor:" + token, 1800, TimeUnit.SECONDS);
 
         Map<String, Object> result = new HashMap<>();
         result.put("token", token);
@@ -95,7 +95,7 @@ public class DoctorServiceImpl extends ServiceImpl<DoctorMapper, Doctor>
     public Result loginByCode(DoctorDto doctorDto) {
         String doctorId = doctorDto.getDocId();
         String code = doctorDto.getCode();
-        String codeRedis = (String) redisTemplate.opsForValue().get(doctorId);
+        String codeRedis = (String) redisTemplate.opsForValue().get("doctor:" + doctorId);
         if (codeRedis == null) {
             return Result.error(USER_CAPTCHA_NOT_EXIST);
         }
@@ -118,8 +118,8 @@ public class DoctorServiceImpl extends ServiceImpl<DoctorMapper, Doctor>
         // 将token作为键，关联信息作为值存入Redis
         //设计这个键的时间长度，可以根据实际情况设置，比如15分钟，30分钟，1小时，1天等等
 
-        redisTemplate.opsForHash().putAll(token, tokenInfo);
-        redisTemplate.expire(token, 1800, TimeUnit.SECONDS);
+        redisTemplate.opsForHash().putAll("doctor:" + token, tokenInfo);
+        redisTemplate.expire("doctor:" + token, 1800, TimeUnit.SECONDS);
 
         Map<String, Object> result = new HashMap<>();
         result.put("token", token);

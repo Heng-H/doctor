@@ -2,9 +2,14 @@ package com.scau.edu.cn.doctor.mapper;
 
 import com.scau.edu.cn.doctor.domain.Orders;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
 * @author 86153
@@ -22,6 +27,7 @@ public interface OrdersMapper extends BaseMapper<Orders> {
      */
     List<Orders> queryAll(Orders orders);
 
+    List<Map<String, Object>> getMapBydate(@Param("dates") List<LocalDate> dates, @Param("smId")Integer smId);
 }
 
 

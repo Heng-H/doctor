@@ -41,6 +41,17 @@
         order by orderDate DESC
     </select>
 
+    <!--查询指定日期的订单数量-->
+    <select id="getMapBydate" resultType="java.util.Map">
+        <foreach item="dateItem" index="index" collection="dates" separator=" UNION ">
+            SELECT #{dateItem} AS date, COUNT(*) AS count
+            FROM orders
+            WHERE state != 0 AND orderDate = #{dateItem} AND smId = #{smId}
+        </foreach>
+
+    </select>
+
+
     <sql id="Base_Column_List">
         orderId,orderDate,userId,
         hpId,smId,state

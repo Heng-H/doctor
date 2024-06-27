@@ -9,6 +9,7 @@ import com.scau.edu.cn.doctor.service.OrdersService;
 import com.scau.edu.cn.doctor.service.SetMealService;
 import com.scau.edu.cn.doctor.mapper.SetMealMapper;
 import com.scau.edu.cn.doctor.util.Result;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -29,8 +30,10 @@ import static com.scau.edu.cn.doctor.util.Status.SETMEAL_IS_EMPTY;
 @Service
 public class SetMealServiceImpl extends ServiceImpl<SetMealMapper, SetMeal>
     implements SetMealService{
-   /* @Resource
-    private OrdersServiceImpl ordersService;*/
+
+
+    /* @Resource
+        private OrdersServiceImpl ordersService;*/
     @Override
     public Result<List<SetMeal>> checkSetMeal() {
         List<SetMeal> setMeals = this.list();
@@ -56,8 +59,20 @@ public class SetMealServiceImpl extends ServiceImpl<SetMealMapper, SetMeal>
             mealNames.add(Name);
         }
 
+        List<Map<String, Object>> mapList =  new ArrayList<>();
+        for(SetMeal setMeal : setMeals)
+        {
+            Map<String, Object> maps = new HashMap<>();
+            maps.put("name", setMeal.getName());
+            List<Map<String, Object>>  orderData = ordersMapper.getMapBydate(dateList, setMeal.getSmId());
+            System.out.println(orderData);
+            maps.put("data", orderData);
+            mapList.add(maps);
+        }
 
-       List<Map<String, Object>> mapList =  new ArrayList<>();
+        System.out.println(mapList);
+        return Result.success(mapList);
+     /*  List<Map<String, Object>> mapList =  new ArrayList<>();
         for(SetMeal setMeal : setMeals){
             Map<String, Object> maps = new HashMap<>();
             maps.put("name", setMeal.getName());
@@ -77,7 +92,7 @@ public class SetMealServiceImpl extends ServiceImpl<SetMealMapper, SetMeal>
              mapList.add(maps);
         }
 
-        return Result.success(mapList);
+        return Result.success(mapList);*/
     }
 }
 

@@ -10,6 +10,7 @@ import com.scau.edu.cn.doctor.util.Result;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 import static com.scau.edu.cn.doctor.util.Status.CIREPORT_SAVE_FAILED;
 import static com.scau.edu.cn.doctor.util.Status.ORDER_FIND_NOT_EXIST;
@@ -50,10 +51,14 @@ public class CidetailedReportServiceImpl extends ServiceImpl<CidetailedReportMap
                     cidetailedReport.setIsError(0);
                 }
             }else if(cidetailedReport.getType() == 2){
-                if (!cidetailedReport.getValue().equals(cidetailedReport.getNormalValue())) {
-                    cidetailedReport.setIsError(1);
+                if(Objects.equals(cidetailedReport.getValue(), "+") || Objects.equals(cidetailedReport.getValue(), "-")) {
+                    if (!cidetailedReport.getValue().equals(cidetailedReport.getNormalValue())) {
+                        cidetailedReport.setIsError(1);
+                    } else {
+                        cidetailedReport.setIsError(0);
+                    }
                 }else{
-                    cidetailedReport.setIsError(0);
+                    return Result.error("范围为-的报告值只能为+或-");
                 }
             }
             boolean result = this.saveOrUpdate(cidetailedReport);
