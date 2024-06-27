@@ -45,7 +45,13 @@ public class CidetailedReportServiceImpl extends ServiceImpl<CidetailedReportMap
             }
             cidetailedReport.setValue(report.getValue());
             if (cidetailedReport.getType() == 1) {
-                if (Double.parseDouble(report.getValue()) < cidetailedReport.getMinrange() || Double.parseDouble(report.getValue()) > cidetailedReport.getMaxrange()) {
+                Double value;
+        try{
+         value = Double.parseDouble(report.getValue());
+        }catch (Exception e){
+            return Result.error("范围为数值的报告值只能为数字");
+        }
+                if (value < cidetailedReport.getMinrange() || value > cidetailedReport.getMaxrange()) {
                     cidetailedReport.setIsError(1);
                 }else{
                     cidetailedReport.setIsError(0);
